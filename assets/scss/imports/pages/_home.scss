@@ -1,0 +1,214 @@
+/* -------------------------------------------------------------------------- */
+/*                                  home page                                 */
+/* -------------------------------------------------------------------------- */
+
+.wafpage {
+  // ====== mainvisual =====
+  .mainvisual {
+    &_container {
+      width: 100%;
+      height: calc(var(--app-height) * 2);
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -2;
+      pointer-events: none;
+      overflow: hidden;
+
+      @include maxW(1023px) {
+        height: calc((var(--app-height) * 1.4) - 1px);
+      }
+    }
+
+    &_overlay {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: $black-cl;
+      opacity: 0.3;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    &_swiper {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+
+    &_inner {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: var(--app-height);
+      z-index: 2;
+
+      h1 {
+        position: absolute;
+        top: 50px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      @include maxW(1023px) {
+        h1 {
+          top: auto;
+          bottom: 25px;
+
+          svg {
+            width: 18px;
+            height: auto;
+          }
+        }
+      }
+    }
+
+    &_logowaf {
+      width: 100%;
+      position: absolute;
+      bottom: 70px;
+      padding: 0 80px;
+      z-index: 2;
+
+      @include maxW(1023px) {
+        top: 22px;
+        bottom: auto;
+        padding: 0 20px;
+      }
+    }
+  }
+
+  // ====== wrapper ======
+  [data-offset-top] {
+    width: 100vw;
+    height: calc(var(--app-height) * 2);
+    background: transparent;
+    pointer-events: none;
+
+    @include maxW(1023px) {
+      height: calc((var(--app-height) * 1.4) - 1px);
+    }
+  }
+  [data-offset-bottom] {
+    width: 100vw;
+    height: var(--app-height);
+    background: transparent;
+    pointer-events: none;
+  }
+  [data-wrapper] {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    top: 1px;
+    z-index: 10;
+    background: $main-bg-cl;
+  }
+
+  // ===== preface =====
+  .preface {
+    &_title {
+      position: sticky;
+      top: 0;
+      .c-title {
+        position: absolute;
+        top: 35px;
+      }
+
+      @include maxW(1023px) {
+        position: relative;
+        .c-title {
+          top: 20px;
+        }
+      }
+    }
+
+    &_entry {
+      padding-top: 250px;
+      width: 66.67vw;
+      margin-left: auto;
+
+      @include maxW(1023px) {
+        padding-top: 200px;
+        width: 100%;
+        margin: 0 auto;
+      }
+    }
+
+    &_content {
+      p {
+        font-size: 2.4rem;
+        letter-spacing: -0.48px;
+        line-height: 2;
+        text-align: justify;
+        margin-bottom: 58px;
+
+        &:last-child {
+          margin-bottom: initial;
+        }
+      }
+
+      @include maxW(1023px) {
+        p {
+          font-size: 1.6rem;
+          letter-spacing: -0.32px;
+          line-height: 1.94;
+          margin-bottom: 32px;
+        }
+      }
+    }
+
+    &_sign {
+      margin-top: 108px;
+      font-size: 2.2rem;
+      letter-spacing: -0.44px;
+      line-height: 1.86;
+      text-align: right;
+
+      @include maxW(1023px) {
+        margin-top: 72px;
+        font-size: 1.4rem;
+        letter-spacing: -0.28px;
+        line-height: 1.79;
+      }
+    }
+  }
+
+  // ===== profile =====
+  .profile {
+    &_container {
+      padding-top: 200px;
+
+      @include maxW(1023px) {
+        padding-top: 120px;
+      }
+    }
+
+    &_inner {
+      width: 100%;
+      height: 100vh;
+      position: relative;
+      overflow: hidden;
+      background-color: $black-cl;
+    }
+
+    &_overlay {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: $black-cl;
+      opacity: 0.4;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    &_title {
+      position: absolute;
+      top: 40px;
+      left: 40px;
+      z-index: 1;
+    }
+  }
+}

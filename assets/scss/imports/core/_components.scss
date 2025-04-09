@@ -1,0 +1,93 @@
+/* Components
+------------------------------------------------------------*/
+
+// ===== loading =====
+.c-loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: var(--app-height);
+  background-color: $main-bg-cl;
+  z-index: 99;
+  opacity: 1;
+  transition: opacity 0.6s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+  pointer-events: none;
+
+  &.--done {
+    opacity: 0;
+    transition-delay: 0s;
+    animation: hide-visibility 0.6s forwards;
+  }
+
+  @keyframes hide-visibility {
+    99% {
+      visibility: visible;
+    }
+    100% {
+      visibility: hidden;
+    }
+  }
+
+  &_container {
+    width: 100%;
+    height: 100%;
+  }
+
+  &_logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+
+    svg {
+      width: 118.78px;
+      height: auto;
+    }
+
+    @include maxW(1023px) {
+      svg {
+        width: 80px;
+      }
+    }
+  }
+}
+
+// ===== title =====
+.c-title {
+  width: fit-content;
+  display: flex;
+  gap: 15px;
+
+  &.--white-cl {
+    p {
+      color: $white-cl;
+    }
+
+    span {
+      background: $white-cl;
+    }
+  }
+
+  p {
+    font-size: 1.8rem;
+    letter-spacing: -1.08px;
+  }
+
+  span {
+    width: 1px;
+    height: auto;
+    background: $black-cl;
+  }
+
+  @include maxW(1023px) {
+    gap: 10px;
+
+    p {
+      font-size: 1.4rem;
+      letter-spacing: -0.84px;
+    }
+  }
+}
