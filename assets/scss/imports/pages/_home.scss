@@ -112,29 +112,30 @@
 
   // ===== preface =====
   .preface {
-    &_title {
-      position: sticky;
-      top: 0;
-      .c-title {
-        position: absolute;
-        top: 35px;
-      }
+    &_container {
+      padding-top: 35px;
 
       @include maxW(1023px) {
-        position: relative;
-        .c-title {
-          top: 20px;
-        }
+        padding-top: 20px;
+      }
+    }
+
+    &_title {
+      position: sticky;
+      top: 35px;
+
+      @include maxW(1023px) {
+        position: unset;
       }
     }
 
     &_entry {
-      padding-top: 250px;
+      padding-top: calc(250px - 35px - 18px);
       width: 66.67vw;
       margin-left: auto;
 
       @include maxW(1023px) {
-        padding-top: 200px;
+        padding-top: calc(200px - 20px - 14px);
         width: 100%;
         margin: 0 auto;
       }
