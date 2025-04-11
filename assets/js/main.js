@@ -12,6 +12,7 @@ const init = () => {
   // # lazy load
   const ll = new LazyLoad({
     threshold: 0,
+    elements_selector: ".lazy",
   });
 };
 
@@ -28,13 +29,15 @@ window.addEventListener("resize", appHeight);
 // ===== lenis =====
 let isLoading = true;
 const lenis = new Lenis({
-  duration: 1.2,
-  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+  duration: 1.0,
+  easing: (t) => Math.min(1, 1.001 - Math.pow(1 - t, 2.5)),
   smooth: true,
+  mouseMultiplier: 1.0,
   smoothTouch: true,
-  wheelMultiplier: 1,
-  touchMultiplier: 2,
+  touchMultiplier: 1.5,
   infinite: false,
+  direction: 'vertical',
+  gestureDirection: 'vertical',
 });
 function raf(time) {
   if (!isLoading) {
@@ -78,7 +81,7 @@ const initLoading = async () => {
   await playWithPromise(playerJincup);
   // # step 2
   await delay(600);
-  document.querySelector("[data-loading]").classList.add("--done");
+  document.querySelector("[data-loading]").classList.add("is-done");
   // -- Remove scroll event blocker and re-enable Lenis
   window.removeEventListener("wheel", preventScroll);
   window.removeEventListener("touchmove", preventScroll);
@@ -114,7 +117,7 @@ const initLanguageSwitch = function (options = {}) {
     switcherSelector: ".c-header_lang", // Container selector
     buttonSelector: ".c-header_lang li", // Button selector
     langAttribute: "data-lang", // Attribute that identifies the language
-    activeClass: "--active", // Class that marks the selected button
+    activeClass: "is-active", // Class that marks the selected button
     rootElement: document.documentElement, // Element to add class to (default is <html>)
   };
   // Combine options with defaults
@@ -135,7 +138,7 @@ const initLanguageSwitch = function (options = {}) {
     return;
   }
 
-  // Set initial --active state based on savedLang
+  // Set initial is-active state based on savedLang
   buttons.forEach((button) => {
     const lang = button.getAttribute(config.langAttribute);
     if (lang === savedLang) {
@@ -150,9 +153,9 @@ const initLanguageSwitch = function (options = {}) {
     button.addEventListener("click", () => {
       const lang = button.getAttribute(config.langAttribute);
       if (!lang) return;
-      // Remove class --active from all buttons
+      // Remove class is-active from all buttons
       buttons.forEach((btn) => btn.classList.remove(config.activeClass));
-      // Add class --active to the clicked button
+      // Add class is-active to the clicked button
       button.classList.add(config.activeClass);
       // Remove old language classes and add new ones
       config.rootElement.classList.remove("lang-ja", "lang-en");
@@ -181,14 +184,102 @@ const [header, footer] = [
   document.querySelector("header"),
   document.querySelector("footer"),
 ];
-lenis.on("scroll", ({}) => {
+lenis.on("scroll", ({ }) => {
   const distInView = footer.getBoundingClientRect().top - 100;
   if (distInView < 0) {
-    header.classList.add("--hidden");
+    header.classList.add("is-hidden");
   } else {
-    header.classList.remove("--hidden");
+    header.classList.remove("is-hidden");
   }
 });
+
+// ===== hover table of contents =====
+
+let activeItem = null;
+const [tocList, tocItems, tocImage] = [
+  document.querySelector("[data-toc-list]"),
+  document.querySelectorAll("[data-toc-items]"),
+  document.querySelector("[data-toc-image]")
+]
+const defaultImageSrc = tocImage.getAttribute('data-src');
+const isMobile = 1023;
+
+const changeImageWithFade = function (newSrc) {
+  const currentSrc = new URL(tocImage.src, window.location.origin).href;
+  const newSrcNormalized = new URL(newSrc, window.location.origin).href;
+  if (currentSrc === newSrcNormalized) {
+    return;
+  }
+  tocImage.parentNode.classList.add('is-fade');
+  setTimeout(() => {
+    tocImage.src = newSrc;
+    tocImage.addEventListener('load', () => {
+      tocImage.parentNode.classList.remove('is-fade');
+    }, { once: true });
+    tocImage.addEventListener('error', () => {
+      console.error(`Failed to load image: ${newSrc}`);
+      tocImage.src = defaultImageSrc;
+      tocImage.parentNode.classList.remove('is-fade');
+    }, { once: true });
+  }, 300); // transiton 0.3s
+}
+
+const resetToDefault = function () {
+  changeImageWithFade(defaultImageSrc);
+  tocItems.forEach(item => {
+    item.style.opacity = '1';
+    item.classList.remove('is-active');
+  });
+  activeItem = null;
+}
+
+const handleInteraction = function (item) {
+  // if click on li is active on mobile, reset to default
+  if (window.innerWidth <= isMobile && activeItem === item) {
+    resetToDefault();
+    return;
+  }
+  // change image
+  const imageSrc = item.getAttribute('data-toc-img');
+  changeImageWithFade(imageSrc);
+  // set opacity
+  tocItems.forEach(otherItem => {
+    if (otherItem !== item) {
+      otherItem.style.opacity = '0.2';
+      otherItem.classList.remove('is-active');
+    } else {
+      otherItem.style.opacity = '1';
+      otherItem.classList.add('is-active');
+    }
+  });
+  activeItem = item;
+}
+// Handling when interacting
+tocItems.forEach(item => {
+  if (window.innerWidth <= isMobile) {
+    item.addEventListener('click', (e) => {
+      e.preventDefault();
+      handleInteraction(item);
+    });
+  } else {
+    item.addEventListener('mouseover', () => {
+      handleInteraction(item);
+    });
+  }
+});
+// Handling when not interacting
+// On mobile, click outside of ul to reset
+if (window.innerWidth <= isMobile) {
+  document.addEventListener('click', (e) => {
+    if (!tocList.contains(e.target)) {
+      resetToDefault();
+    }
+  });
+} else {
+  tocList.addEventListener('mouseout', (e) => {
+    resetToDefault();
+  });
+}
 
 // ### ===== DOMCONTENTLOADED ===== ###
 window.addEventListener("DOMContentLoaded", init);

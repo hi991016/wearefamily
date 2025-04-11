@@ -38,7 +38,7 @@
       pointer-events: none;
 
       picture {
-        background-color: $black-cl;
+        background-color: #6c6e4e;
       }
     }
 
@@ -195,7 +195,7 @@
       height: 100vh;
       position: relative;
       overflow: hidden;
-      background-color: $black-cl;
+      background-color: #27241c;
     }
 
     &_overlay {
@@ -216,14 +216,14 @@
       z-index: 1;
 
       @include maxW(1023px) {
-        top: 17px;
+        top: 20px;
         left: 20px;
       }
     }
 
     &_content {
       position: absolute;
-      bottom: 65px;
+      bottom: 45px;
       right: 40px;
       z-index: 1;
       width: 33.333%;
@@ -237,7 +237,7 @@
       }
 
       p {
-        margin-top: 65px;
+        margin-top: 55px;
         font-size: 1.4rem;
         letter-spacing: -0.28px;
         line-height: 1.89;
@@ -248,7 +248,7 @@
         width: 100%;
         padding: 0 20px;
         right: 0;
-        bottom: 40px;
+        bottom: 25px;
 
         h2 {
           font-size: 1.4rem;
@@ -257,7 +257,7 @@
         }
 
         p {
-          margin-top: 20px;
+          margin-top: 12px;
           font-size: 1.2rem;
           letter-spacing: -0.24px;
           line-height: 1.83;
@@ -270,6 +270,309 @@
   .toc {
     &_container {
       padding-top: 200px;
+    }
+
+    &_inner {
+      margin-top: 60px;
+      position: relative;
+    }
+
+    @include maxW(1023px) {
+      &_container {
+        padding-top: 120px;
+      }
+
+      &_inner {
+        margin-top: 50px;
+      }
+    }
+
+    &_list {
+      position: absolute;
+      top: 0;
+      z-index: 2;
+
+      li {
+        margin-bottom: 26px;
+        font-weight: 400;
+        font-size: 2.4rem;
+        letter-spacing: -0.48px;
+        line-height: 1;
+        cursor: pointer;
+
+        width: fit-content;
+        display: flex;
+        gap: 15px;
+        align-items: center;
+
+        opacity: 1;
+        transition: opacity 0.3s ease-out;
+
+        &.is-active,
+        &:hover {
+          opacity: 1;
+        }
+
+        span {
+          width: 1px;
+          height: 25px;
+          background: $black-cl;
+        }
+
+        &:last-child {
+          margin-bottom: initial;
+        }
+      }
+
+      @include maxW(1023px) {
+        position: unset;
+
+        li {
+          position: relative;
+          width: 100%;
+          margin-bottom: 17px;
+          font-size: 1.8rem;
+          letter-spacing: -0.36px;
+          gap: 12px;
+
+          &:after {
+            content: "";
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 5px;
+            height: 5px;
+            background: $black-cl;
+            border-radius: 50%;
+          }
+
+          span {
+            height: 18px;
+          }
+        }
+      }
+    }
+
+    &_thumb {
+      width: 66.67vw;
+      margin-left: auto;
+
+      figure {
+        display: block;
+        z-index: 1;
+        position: relative;
+        height: 100%;
+        height: auto;
+        padding-bottom: calc((750 / 960) * 100%);
+        background-color: #eef0ef;
+        transition: opacity 0.3s ease-out;
+
+        &.is-fade {
+          opacity: 0;
+        }
+
+        img {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+
+      @include maxW(1023px) {
+        width: 100%;
+        margin-top: 55px;
+
+        figure {
+          padding-bottom: calc((292 / 374) * 100%);
+        }
+      }
+    }
+  }
+
+  // ===== excerpt =====
+  .excerpt {
+    &_container {
+      padding-top: 250px;
+      display: grid;
+      grid-template-columns: auto 66.67vw;
+    }
+
+    @include maxW(1023px) {
+      &_container {
+        padding-top: 93px;
+        display: block;
+      }
+
+      &_list {
+        margin-top: 50px;
+      }
+    }
+
+    &_items {
+      position: relative;
+      width: 100%;
+      max-width: 902px;
+      margin-bottom: 100px;
+      &:last-child {
+        margin-bottom: initial;
+      }
+
+      @include maxW(1023px) {
+        max-width: 100%;
+        margin-bottom: 55px;
+      }
+    }
+
+    &_plus {
+      @include maxW(1023px) {
+        width: 15px;
+        height: 15px;
+        position: absolute;
+        bottom: 7px;
+        right: 0;
+        background: transparent;
+
+        &::before,
+        &::after {
+          content: "";
+          position: absolute;
+          background: $black-cl;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+        }
+
+        &::before {
+          width: 100%;
+          height: 1px;
+        }
+
+        &::after {
+          width: 1px;
+          height: 100%;
+        }
+      }
+    }
+
+    &_thumb {
+      opacity: 0;
+      visibility: hidden;
+      transition: 0.3s ease-out;
+      position: absolute;
+      z-index: -1;
+      pointer-events: none;
+      height: auto;
+
+      img {
+        object-fit: contain;
+      }
+
+      &.is-james {
+        top: 50%;
+        right: 0;
+        width: 18.26vw;
+        max-width: 263px;
+        transform: translateY(-50%);
+      }
+
+      &.is-kido {
+        --calc: calc(-30.625vw + 25px);
+        top: 50%;
+        left: max(var(--calc), -416px);
+        width: 30.625vw;
+        max-width: 441px;
+        transform: translateY(-50%);
+      }
+
+      &.is-jin {
+        top: 72px;
+        right: 36px;
+        width: 21.8vw;
+        max-width: 314px;
+      }
+
+      @include maxW(1023px) {
+        z-index: 1;
+        opacity: 1;
+        visibility: visible;
+        position: unset !important;
+        max-width: 184px !important;
+        width: 45.17vw !important;
+        transform: none !important;
+      }
+    }
+
+    &_inner {
+      width: fit-content;
+      cursor: pointer;
+
+      &:hover {
+        & > .is-hover {
+          opacity: 1;
+          visibility: visible;
+        }
+      }
+    }
+
+    &_content {
+      h2,
+      p {
+        mix-blend-mode: difference;
+        filter: invert(1);
+      }
+
+      h2 {
+        font-weight: 400;
+        font-size: 2.4rem;
+        letter-spacing: -0.48px;
+        line-height: 2;
+        text-decoration: underline;
+        text-underline-offset: 6px;
+        text-align: justify;
+      }
+
+      p {
+        margin-top: 40px;
+        font-size: 1.4rem;
+        letter-spacing: -0.28px;
+        line-height: 1.75;
+        text-align: justify;
+
+        span.indent {
+          text-indent: -6px;
+        }
+
+        span.notes {
+          font-size: 1.1rem;
+          display: inline;
+        }
+      }
+
+      @include maxW(1023px) {
+        margin-top: 23px;
+
+        h2 {
+          font-size: 1.8rem;
+          letter-spacing: -0.36px;
+          line-height: 1.83;
+          text-underline-offset: 3px;
+        }
+
+        p {
+          margin-top: 18px;
+          font-size: 1.2rem;
+          letter-spacing: -0.24px;
+          line-height: 1.83;
+
+          span.notes {
+            font-size: 1rem;
+          }
+        }
+      }
     }
   }
 }
