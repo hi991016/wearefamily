@@ -109,6 +109,18 @@ const swiperMainvisual = new Swiper("[data-mainvisual-swiper]", {
   },
 });
 
+// ===== details swiper =====
+const swiperDetails = new Swiper("[data-details-swiper]", {
+  loop: true,
+  speed: 600,
+  slidesPerView: 1,
+  effect: "fade",
+  navigation: {
+    nextEl: ".swiper-button-next",
+    prevEl: ".swiper-button-prev",
+  },
+});
+
 // ===== switch language =====
 const initLanguageSwitch = function (options = {}) {
   // Default configuration
