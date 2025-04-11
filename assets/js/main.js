@@ -36,8 +36,8 @@ const lenis = new Lenis({
   smoothTouch: true,
   touchMultiplier: 1.5,
   infinite: false,
-  direction: 'vertical',
-  gestureDirection: 'vertical',
+  direction: "vertical",
+  gestureDirection: "vertical",
 });
 function raf(time) {
   if (!isLoading) {
@@ -184,7 +184,7 @@ const [header, footer] = [
   document.querySelector("header"),
   document.querySelector("footer"),
 ];
-lenis.on("scroll", ({ }) => {
+lenis.on("scroll", ({}) => {
   const distInView = footer.getBoundingClientRect().top - 100;
   if (distInView < 0) {
     header.classList.add("is-hidden");
@@ -199,9 +199,9 @@ let activeItem = null;
 const [tocList, tocItems, tocImage] = [
   document.querySelector("[data-toc-list]"),
   document.querySelectorAll("[data-toc-items]"),
-  document.querySelector("[data-toc-image]")
-]
-const defaultImageSrc = tocImage.getAttribute('data-src');
+  document.querySelector("[data-toc-image]"),
+];
+const defaultImageSrc = tocImage.getAttribute("data-src");
 const isMobile = 1023;
 
 const changeImageWithFade = function (newSrc) {
@@ -210,28 +210,36 @@ const changeImageWithFade = function (newSrc) {
   if (currentSrc === newSrcNormalized) {
     return;
   }
-  tocImage.parentNode.classList.add('is-fade');
+  tocImage.parentNode.classList.add("is-fade");
   setTimeout(() => {
     tocImage.src = newSrc;
-    tocImage.addEventListener('load', () => {
-      tocImage.parentNode.classList.remove('is-fade');
-    }, { once: true });
-    tocImage.addEventListener('error', () => {
-      console.error(`Failed to load image: ${newSrc}`);
-      tocImage.src = defaultImageSrc;
-      tocImage.parentNode.classList.remove('is-fade');
-    }, { once: true });
+    tocImage.addEventListener(
+      "load",
+      () => {
+        tocImage.parentNode.classList.remove("is-fade");
+      },
+      { once: true }
+    );
+    tocImage.addEventListener(
+      "error",
+      () => {
+        console.error(`Failed to load image: ${newSrc}`);
+        tocImage.src = defaultImageSrc;
+        tocImage.parentNode.classList.remove("is-fade");
+      },
+      { once: true }
+    );
   }, 300); // transiton 0.3s
-}
+};
 
 const resetToDefault = function () {
   changeImageWithFade(defaultImageSrc);
-  tocItems.forEach(item => {
-    item.style.opacity = '1';
-    item.classList.remove('is-active');
+  tocItems.forEach((item) => {
+    item.style.opacity = "1";
+    item.classList.remove("is-active");
   });
   activeItem = null;
-}
+};
 
 const handleInteraction = function (item) {
   // if click on li is active on mobile, reset to default
@@ -240,29 +248,29 @@ const handleInteraction = function (item) {
     return;
   }
   // change image
-  const imageSrc = item.getAttribute('data-toc-img');
+  const imageSrc = item.getAttribute("data-toc-img");
   changeImageWithFade(imageSrc);
   // set opacity
-  tocItems.forEach(otherItem => {
+  tocItems.forEach((otherItem) => {
     if (otherItem !== item) {
-      otherItem.style.opacity = '0.2';
-      otherItem.classList.remove('is-active');
+      otherItem.style.opacity = "0.2";
+      otherItem.classList.remove("is-active");
     } else {
-      otherItem.style.opacity = '1';
-      otherItem.classList.add('is-active');
+      otherItem.style.opacity = "1";
+      otherItem.classList.add("is-active");
     }
   });
   activeItem = item;
-}
+};
 // Handling when interacting
-tocItems.forEach(item => {
+tocItems.forEach((item) => {
   if (window.innerWidth <= isMobile) {
-    item.addEventListener('click', (e) => {
+    item.addEventListener("click", (e) => {
       e.preventDefault();
       handleInteraction(item);
     });
   } else {
-    item.addEventListener('mouseover', () => {
+    item.addEventListener("mouseover", () => {
       handleInteraction(item);
     });
   }
@@ -270,16 +278,63 @@ tocItems.forEach(item => {
 // Handling when not interacting
 // On mobile, click outside of ul to reset
 if (window.innerWidth <= isMobile) {
-  document.addEventListener('click', (e) => {
+  document.addEventListener("click", (e) => {
     if (!tocList.contains(e.target)) {
       resetToDefault();
     }
   });
 } else {
-  tocList.addEventListener('mouseout', (e) => {
+  tocList.addEventListener("mouseout", (e) => {
     resetToDefault();
   });
 }
+
+// ===== show/hide popup =====
+const showPopup = function (popupName) {
+  const popup = document.querySelector(`[data-popup="${popupName}"]`);
+  if (popup) {
+    document.querySelectorAll("[data-popup].is-show").forEach((openPopup) => {
+      openPopup.classList.remove("is-show");
+      setTimeout(() => {
+        openPopup.style.display = "none";
+      }, 300);
+    });
+
+    popup.style.display = "block";
+    requestAnimationFrame(() => {
+      popup.classList.add("is-show");
+    });
+
+    document.body.style.overflow = "hidden";
+    if (lenis) lenis.stop();
+  }
+};
+
+const closePopup = function (popup) {
+  popup.classList.remove("is-show");
+  setTimeout(() => {
+    popup.style.display = "none";
+    if (!document.querySelector("[data-popup].is-show")) {
+      document.body.style.removeProperty("overflow");
+      if (lenis) lenis.start();
+    }
+  }, 300);
+};
+
+// handle show popup
+document.querySelectorAll("[data-popup-id]").forEach((button) => {
+  button.addEventListener("click", () => {
+    const popupName = button.getAttribute("data-popup-id");
+    showPopup(popupName);
+  });
+});
+// handle close popup
+document.querySelectorAll("[data-popup-close]").forEach((button) => {
+  button.addEventListener("click", () => {
+    const popup = button.closest("[data-popup]");
+    closePopup(popup);
+  });
+});
 
 // ### ===== DOMCONTENTLOADED ===== ###
 window.addEventListener("DOMContentLoaded", init);
