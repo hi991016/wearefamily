@@ -498,6 +498,7 @@
         z-index: 1;
         opacity: 1;
         visibility: visible;
+        background-color: #eef0ef;
         position: unset !important;
         max-width: 184px !important;
         width: 45.17vw !important;
@@ -605,6 +606,11 @@
       display: grid;
       grid-template-columns: 50% auto;
       gap: 100px;
+
+      @include maxW(1023px) {
+        margin-top: 48px;
+        display: block;
+      }
     }
 
     &_content {
@@ -656,6 +662,46 @@
           }
         }
       }
+
+      @include maxW(1023px) {
+        margin-top: 48px;
+        padding-right: 0;
+
+        h2 {
+          font-size: 1.8rem;
+          letter-spacing: -0.36px;
+          line-height: 1.67;
+
+          span {
+            letter-spacing: 0.36px;
+          }
+        }
+
+        p {
+          margin-top: 20px;
+          font-size: 1.4rem;
+          letter-spacing: -0.28px;
+          line-height: 1.86;
+        }
+
+        table {
+          margin-top: 20px;
+
+          tr {
+            gap: 12px;
+          }
+
+          td {
+            font-size: 1.2rem;
+            letter-spacing: -0.24px;
+            line-height: 1.5;
+
+            &:first-child {
+              flex: 0 0 2.2em;
+            }
+          }
+        }
+      }
     }
 
     &_group {
@@ -663,6 +709,11 @@
       display: flex;
       flex-direction: column;
       gap: 20px;
+
+      @include maxW(1023px) {
+        margin-top: 50px;
+        gap: 15px;
+      }
     }
 
     &_btn {
@@ -675,8 +726,9 @@
       align-items: center;
       justify-content: center;
       font-size: 1.8rem;
-      letter-spacing: -0.36px;
+      letter-spacing: 0.36px;
       cursor: pointer;
+      overflow: hidden;
 
       .plus {
         width: 16px;
@@ -705,6 +757,17 @@
         &::after {
           width: 1px;
           height: 100%;
+        }
+      }
+
+      @include maxW(1023px) {
+        height: 70px;
+        font-size: 1.4rem;
+        letter-spacing: 0.28px;
+
+        .plus {
+          width: 15px;
+          height: 15px;
         }
       }
     }
@@ -736,17 +799,104 @@
     }
 
     &_control {
-      .swiper-button-next:after,
-      .swiper-button-prev:after {
-        font-size: 2.4rem;
+      svg {
+        width: 13px;
+        height: auto;
       }
 
       .swiper-button-next {
+        width: fit-content;
         right: 30px;
+
+        &:after {
+          font-size: 0;
+          content: "";
+          height: 50px;
+          width: 50px;
+          position: absolute;
+          top: -3px;
+          right: -17px;
+        }
       }
 
       .swiper-button-prev {
+        width: fit-content;
         left: 30px;
+
+        &:after {
+          font-size: 0;
+          content: "";
+          height: 50px;
+          width: 50px;
+          position: absolute;
+          top: -3px;
+          left: -17px;
+        }
+      }
+
+      @include maxW(1023px) {
+        svg {
+          width: 8px;
+        }
+
+        .swiper-button-next {
+          right: 15px;
+
+          &:after {
+            width: 30px;
+            height: 30px;
+            top: 7px;
+            right: -9px;
+          }
+        }
+
+        .swiper-button-prev {
+          left: 15px;
+
+          &:after {
+            width: 30px;
+            height: 30px;
+            top: 7px;
+            left: -9px;
+          }
+        }
+      }
+    }
+
+    &_pager {
+      position: absolute;
+      z-index: 2;
+      bottom: 22px;
+      left: 30px;
+      font-size: 1.6rem;
+      letter-spacing: -0.32px;
+      pointer-events: none;
+      mix-blend-mode: difference;
+      filter: invert(1);
+
+      &_inner {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 10px;
+
+        span.line {
+          display: inline-block;
+          width: 20px;
+          height: 1px;
+          background-color: $black-cl;
+        }
+      }
+
+      @include maxW(1023px) {
+        left: 15px;
+        bottom: 12px;
+        font-size: 1.2rem;
+        letter-spacing: -0.24px;
+
+        &_inner {
+          gap: 5px;
+        }
       }
     }
   }

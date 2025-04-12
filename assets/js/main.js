@@ -119,6 +119,16 @@ const swiperDetails = new Swiper("[data-details-swiper]", {
     nextEl: ".swiper-button-next",
     prevEl: ".swiper-button-prev",
   },
+  on: {
+    slideChange: function () {
+      let e = this.realIndex + 1;
+      document.querySelector("[data-details-pager] .current").innerHTML = e;
+    },
+    beforeInit: function () {
+      let numOfSlides = this.wrapperEl.querySelectorAll(".swiper-slide").length;
+      document.querySelector("[data-details-pager] .total").innerHTML = numOfSlides;
+    },
+  },
 });
 
 // ===== switch language =====
