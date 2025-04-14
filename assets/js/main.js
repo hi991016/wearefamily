@@ -126,7 +126,8 @@ const swiperDetails = new Swiper("[data-details-swiper]", {
     },
     beforeInit: function () {
       let numOfSlides = this.wrapperEl.querySelectorAll(".swiper-slide").length;
-      document.querySelector("[data-details-pager] .total").innerHTML = numOfSlides;
+      document.querySelector("[data-details-pager] .total").innerHTML =
+        numOfSlides;
     },
   },
 });
@@ -307,7 +308,9 @@ if (window.innerWidth <= isMobile) {
   });
 } else {
   tocList.addEventListener("mouseout", (e) => {
-    resetToDefault();
+    if (!tocList.contains(e.relatedTarget)) {
+      resetToDefault();
+    }
   });
 }
 
