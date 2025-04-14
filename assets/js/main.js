@@ -2,7 +2,7 @@
 
 // ===== init =====
 const init = () => {
-  console.clear();
+  // console.clear();
   // # app height
   appHeight();
   // # init loading
@@ -360,6 +360,51 @@ document.querySelectorAll("[data-popup-close]").forEach((button) => {
     closePopup(popup);
   });
 });
+
+// ===== timeline =====
+document.querySelectorAll(".timeline_items").forEach((column) => {
+  column.addEventListener("click", (event) => {
+    // Ngăn sự kiện click từ nội dung lan truyền lên cột
+    // if (event.target.closest(".timeline_content")) {
+    //   return; // Nếu click vào nội dung, không làm gì
+    // }
+
+    const content = column.querySelector(".timeline_content"); // Lấy nội dung (timeline_content)
+
+    // Nếu cột đã mở, đóng lại
+    if (column.classList.contains("is-expanded")) {
+      column.classList.remove("is-expanded");
+      content.classList.remove("is-active");
+    } else {
+      // Đóng tất cả các cột khác trước khi mở cột mới
+      document.querySelectorAll(".timeline_items").forEach((otherColumn) => {
+        otherColumn.classList.remove("is-expanded");
+      });
+      document.querySelectorAll(".timeline_content").forEach((otherContent) => {
+        otherContent.classList.remove("is-active");
+      });
+
+      // Mở cột được nhấn
+      column.classList.add("is-expanded");
+      content.classList.add("is-active");
+    }
+  });
+});
+
+// var acc = document.getElementsByClassName("timeline_year");
+// var i;
+
+// for (i = 0; i < acc.length; i++) {
+//   acc[i].addEventListener("click", function() {
+//     this.classList.toggle("active");
+//     var panel = this.parentElement;
+//     if (panel.style.width) {
+//       panel.style.width = null;
+//     } else {
+//       panel.style.width = panel.scrollWidth + "px";
+//     }
+//   });
+// }
 
 // ### ===== DOMCONTENTLOADED ===== ###
 window.addEventListener("DOMContentLoaded", init);

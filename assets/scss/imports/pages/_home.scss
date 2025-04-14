@@ -587,6 +587,138 @@
         padding-top: 120px;
       }
     }
+
+    &_list {
+      margin-top: 57px;
+      display: flex;
+      flex-direction: row;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-behavior: smooth;
+      width: 100%;
+      height: 697px;
+      padding-bottom: 60px;
+
+      &::-webkit-scrollbar {
+        height: 2px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: #000;
+        border-radius: 4px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: rgba($color: #000000, $alpha: 0.2);
+      }
+    }
+
+    &_items {
+      flex: 0 0 auto;
+      border-left: 1px solid $black-cl;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      cursor: pointer;
+
+      max-width: 80px;
+      transition: max-width 0.8s ease;
+      height: 100%;
+
+      &:last-child {
+        border-right: 1px solid $black-cl;
+      }
+
+      &.is-expanded {
+        max-width: 1000px;
+      }
+    }
+
+    &_year {
+      font-weight: 400;
+      font-size: 2.4rem;
+      letter-spacing: -0.48px;
+      line-height: 1.83;
+      padding: 0 15px;
+    }
+
+    &_content {
+      opacity: 0;
+      width: 100%;
+      transition: opacity 0.1s;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+
+      &.is-active {
+        opacity: 1;
+        pointer-events: auto;
+        transition: opacity 0.5s 0.4s;
+      }
+    }
+
+    &_desc {
+      margin-top: 12px;
+      padding: 0 20px;
+      flex: 1;
+
+      p {
+        font-family: Yu Gothic, YuGothic, sans-serif;
+        font-weight: 400;
+        font-size: 1.3rem;
+        letter-spacing: -0.26px;
+        line-height: 1.61;
+
+        span.indent {
+          display: block;
+          text-indent: -10px;
+        }
+      }
+    }
+
+    &_products {
+      padding: 0 15px;
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+
+        tr {
+          display: flex;
+          gap: 10px;
+          margin-bottom: 10px;
+
+          &:last-child {
+            margin-bottom: initial;
+          }
+        }
+
+        td {
+          min-width: 130px;
+        }
+      }
+
+      figure {
+        width: 75px;
+        height: auto;
+        margin: 0 auto;
+
+        img {
+          object-fit: contain;
+        }
+      }
+
+      p {
+        margin-top: 10px;
+        font-family: Yu Gothic, YuGothic, sans-serif;
+        font-weight: 400;
+        font-size: 1.2rem;
+        letter-spacing: -0.24px;
+        line-height: 1.47;
+        text-align: center;
+      }
+    }
   }
 
   // ===== details =====
