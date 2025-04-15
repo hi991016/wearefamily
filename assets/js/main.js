@@ -363,48 +363,44 @@ document.querySelectorAll("[data-popup-close]").forEach((button) => {
 
 // ===== timeline =====
 document.querySelectorAll(".timeline_items").forEach((column) => {
-  column.addEventListener("click", (event) => {
-    // Ngăn sự kiện click từ nội dung lan truyền lên cột
-    // if (event.target.closest(".timeline_content")) {
-    //   return; // Nếu click vào nội dung, không làm gì
-    // }
+  column.addEventListener("click", () => {
+    const content = column.querySelector(".timeline_content");
 
-    const content = column.querySelector(".timeline_content"); // Lấy nội dung (timeline_content)
-
-    // Nếu cột đã mở, đóng lại
     if (column.classList.contains("is-expanded")) {
+      //  close colujmn
       column.classList.remove("is-expanded");
       content.classList.remove("is-active");
     } else {
-      // Đóng tất cả các cột khác trước khi mở cột mới
+      // close all column
       document.querySelectorAll(".timeline_items").forEach((otherColumn) => {
         otherColumn.classList.remove("is-expanded");
+        otherColumn
+          .querySelector(".timeline_content")
+          .classList.remove("is-active");
       });
-      document.querySelectorAll(".timeline_content").forEach((otherContent) => {
-        otherContent.classList.remove("is-active");
-      });
-
-      // Mở cột được nhấn
+      // open column target
       column.classList.add("is-expanded");
-      content.classList.add("is-active");
+      setTimeout(() => {
+        content.classList.add("is-active");
+      }, 500);
     }
   });
 });
 
-// var acc = document.getElementsByClassName("timeline_year");
-// var i;
+// Improved scrollbar functionality
+const timelineList = document.querySelector("[data-timeline-list]");
+const scrollbarThumb = document.querySelector("[data-timeline-thumb]");
+const trackWidth = 100;
+const thumbWidth = 20;
+const maxScroll = timelineList.scrollWidth - timelineList.clientWidth;
+const maxThumbPosition = trackWidth - thumbWidth;
 
-// for (i = 0; i < acc.length; i++) {
-//   acc[i].addEventListener("click", function() {
-//     this.classList.toggle("active");
-//     var panel = this.parentElement;
-//     if (panel.style.width) {
-//       panel.style.width = null;
-//     } else {
-//       panel.style.width = panel.scrollWidth + "px";
-//     }
-//   });
-// }
+timelineList.addEventListener("scroll", () => {
+  const scrollPosition = timelineList.scrollLeft;
+  const scrollRatio = scrollPosition / maxScroll;
+  const thumbPosition = scrollRatio * maxThumbPosition;
+  scrollbarThumb.style.left = `${thumbPosition}px`;
+});
 
 // ### ===== DOMCONTENTLOADED ===== ###
 window.addEventListener("DOMContentLoaded", init);
