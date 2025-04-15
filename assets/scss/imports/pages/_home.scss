@@ -634,6 +634,7 @@
     }
 
     &_scrollbar {
+      display: none;
       @include maxW(1023px) {
         display: flex;
         align-items: center;
@@ -651,6 +652,7 @@
           background: rgba(0, 0, 0, 0.2);
           position: relative;
           border-radius: 4px;
+          overflow: hidden;
         }
 
         &_thumb {

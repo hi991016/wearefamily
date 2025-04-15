@@ -2,7 +2,7 @@
 
 // ===== init =====
 const init = () => {
-  // console.clear();
+  console.clear();
   // # app height
   appHeight();
   // # init loading
