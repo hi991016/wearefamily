@@ -615,6 +615,16 @@
         background: rgba($color: #000000, $alpha: 0.2);
         margin: 0 40px;
       }
+
+      @include maxW(1023px) {
+        height: 612px;
+        margin: 46px -20px 0;
+        padding: 0 20px 45px;
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
+      }
     }
 
     &_items {
@@ -634,6 +644,10 @@
       &.is-expanded {
         max-width: 1000px;
       }
+
+      @include maxW(1023px) {
+        max-width: 70px;
+      }
     }
 
     &_year {
@@ -642,6 +656,12 @@
       letter-spacing: -0.48px;
       line-height: 1.83;
       padding: 0 15px;
+
+      @include maxW(1023px) {
+        font-size: 1.8rem;
+        letter-spacing: -0.36px;
+        line-height: 1.81;
+      }
     }
 
     &_content {
@@ -680,6 +700,14 @@
 
         span.indent {
           text-indent: -10px;
+        }
+      }
+
+      @include maxW(1023px) {
+        p {
+          font-size: 1.2rem;
+          letter-spacing: -0.48px;
+          line-height: 1.59;
         }
       }
     }
@@ -724,6 +752,23 @@
         letter-spacing: -0.24px;
         line-height: 1.47;
         text-align: center;
+      }
+
+      @include maxW(1023px) {
+        table {
+          td {
+            min-width: 112px;
+          }
+        }
+
+        figure {
+          width: 65px;
+        }
+
+        p {
+          font-size: 1.1rem;
+          letter-spacing: -0.44px;
+        }
       }
     }
   }
