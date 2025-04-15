@@ -589,7 +589,6 @@
     }
 
     &_list {
-      margin-top: 57px;
       display: flex;
       flex-direction: row;
       overflow-x: auto;
@@ -597,7 +596,9 @@
       scroll-behavior: smooth;
       width: 100%;
       height: 717px;
-      padding-bottom: 60px;
+      margin: 57px -40px 0;
+      padding: 0 40px 60px;
+      box-sizing: content-box;
 
       &::-webkit-scrollbar {
         height: 2px;
@@ -606,10 +607,13 @@
       &::-webkit-scrollbar-thumb {
         background: #000;
         border-radius: 4px;
+        cursor: pointer;
       }
 
       &::-webkit-scrollbar-track {
+        cursor: pointer;
         background: rgba($color: #000000, $alpha: 0.2);
+        margin: 0 40px;
       }
     }
 
@@ -620,10 +624,8 @@
       flex-direction: column;
       height: 100%;
       cursor: pointer;
-
       max-width: 80px;
       transition: max-width 0.6s ease;
-      height: 100%;
 
       &:last-child {
         border-right: 1px solid $black-cl;
@@ -650,11 +652,13 @@
       display: flex;
       flex-direction: column;
       height: 100%;
+      white-space: nowrap;
 
       &.is-active {
         opacity: 1;
         pointer-events: auto;
         transition: opacity 0.5s 0.4s;
+        white-space: normal;
       }
     }
 
