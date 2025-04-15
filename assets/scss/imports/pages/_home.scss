@@ -670,8 +670,11 @@
         letter-spacing: -0.26px;
         line-height: 1.61;
 
-        span.indent {
+        span {
           display: block;
+        }
+
+        span.indent {
           text-indent: -10px;
         }
       }
