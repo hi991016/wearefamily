@@ -61,6 +61,7 @@ const playWithPromise = (player) => {
   });
 };
 const initLoading = async () => {
+  history.scrollRestoration = "manual";
   // Block scroll events
   window.addEventListener("wheel", preventScroll, { passive: false });
   window.addEventListener("touchmove", preventScroll, { passive: false });
@@ -74,7 +75,7 @@ const initLoading = async () => {
     },
     { passive: false }
   );
-  window.scrollTo(0, 0);
+  // window.scrollTo(0, 0);
   // # step 1
   await delay(1000);
   const playerJincup = document.getElementById("e7DApHFhQti1").svgatorPlayer;
@@ -207,7 +208,7 @@ const [header, footer] = [
   document.querySelector("header"),
   document.querySelector("footer"),
 ];
-lenis.on("scroll", ({}) => {
+lenis.on("scroll", ({ }) => {
   const distInView = footer.getBoundingClientRect().top - 100;
   if (distInView < 0) {
     header.classList.add("is-hidden");
@@ -362,45 +363,51 @@ document.querySelectorAll("[data-popup-close]").forEach((button) => {
 });
 
 // ===== timeline =====
-document.querySelectorAll(".timeline_items").forEach((column) => {
-  column.addEventListener("click", () => {
-    const content = column.querySelector(".timeline_content");
+// document.querySelectorAll(".timeline_items").forEach((column) => {
+//   column.addEventListener("click", () => {
+//     const content = column.querySelector(".timeline_content");
 
-    if (column.classList.contains("is-expanded")) {
-      //  close colujmn
-      column.classList.remove("is-expanded");
-      content.classList.remove("is-active");
-    } else {
-      // close all column
-      document.querySelectorAll(".timeline_items").forEach((otherColumn) => {
-        otherColumn.classList.remove("is-expanded");
-        otherColumn
-          .querySelector(".timeline_content")
-          .classList.remove("is-active");
-      });
-      // open column target
-      column.classList.add("is-expanded");
-      setTimeout(() => {
-        content.classList.add("is-active");
-      }, 500);
-    }
-  });
-});
+//     if (column.classList.contains("is-expanded")) {
+//       //  close colujmn
+//       column.classList.remove("is-expanded");
+//       content.classList.remove("is-active");
+//     } else {
+//       // close all column
+//       document.querySelectorAll(".timeline_items").forEach((otherColumn) => {
+//         otherColumn.classList.remove("is-expanded");
+//         otherColumn
+//           .querySelector(".timeline_content")
+//           .classList.remove("is-active");
+//       });
+//       // open column target
+//       column.classList.add("is-expanded");
+//       setTimeout(() => {
+//         content.classList.add("is-active");
+//       }, 500);
+//     }
+//   });
+// });
 
 // Improved scrollbar functionality
-const timelineList = document.querySelector("[data-timeline-list]");
-const scrollbarThumb = document.querySelector("[data-timeline-thumb]");
-const trackWidth = 100;
-const thumbWidth = 20;
-const maxScroll = timelineList.scrollWidth - timelineList.clientWidth;
-const maxThumbPosition = trackWidth - thumbWidth;
+if (document.querySelector("[data-timeline-list]")) {
+  const timelineList = document.querySelector("[data-timeline-list]");
+  const scrollbarThumb = document.querySelector("[data-timeline-thumb]");
+  const scrollbarTrack = document.querySelector("[data-timeline-track]");
+  const thumbWidth = 100;
+  const maxScroll = timelineList.scrollWidth - timelineList.clientWidth;
 
-timelineList.addEventListener("scroll", () => {
-  const scrollPosition = timelineList.scrollLeft;
-  const scrollRatio = scrollPosition / maxScroll;
-  const thumbPosition = scrollRatio * maxThumbPosition;
-  scrollbarThumb.style.left = `${thumbPosition}px`;
-});
+  // Get the track width dynamically
+  const trackWidth = scrollbarTrack.clientWidth;
+  const maxThumbPosition = trackWidth - thumbWidth;
+
+  timelineList.addEventListener("scroll", () => {
+    const scrollPosition = timelineList.scrollLeft;
+    const scrollRatio = scrollPosition / maxScroll;
+    const thumbPosition = scrollRatio * maxThumbPosition;
+    scrollbarThumb.style.left = `${thumbPosition}px`;
+  });
+}
+
 
 // ### ===== DOMCONTENTLOADED ===== ###
-window.addEventListener("DOMContentLoaded", init);
+window.addEventListener("load", init);
